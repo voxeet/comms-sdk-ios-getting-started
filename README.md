@@ -10,10 +10,4 @@ $ brew update
 $ brew install carthage
 ```
 
-To integrate [VoxeetSDK](https://github.com/voxeet/voxeet-ios-sdk) into your Xcode project using Carthage, specify it in your `Cartfile`:
-
-```ogdl
-github "voxeet/voxeet-ios-sdk" ~> 1.0
-```
-
 Run `carthage update` 
