@@ -10,4 +10,4 @@ $ brew update
 $ brew install carthage
 ```
 
-Run `carthage update` 
+Run `carthage update` to install dependencies
