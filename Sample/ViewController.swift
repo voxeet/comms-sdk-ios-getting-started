@@ -23,6 +23,8 @@ class ViewController: UIViewController {
     var stopVideoButton: UIButton!
     var startScreenShareButton: UIButton!
     var stopScreenShareButton: UIButton!
+    var startRecordingButton: UIButton!
+    var stopRecordingButton: UIButton!
     
     // Videos views.
     var videosView1: VTVideoView!
@@ -146,6 +148,24 @@ class ViewController: UIViewController {
         stopScreenShareButton.setTitle("STOPSCREEN", for: .normal)
         stopScreenShareButton.addTarget(self, action: #selector(stopScreenShareAction), for: .touchUpInside)
         self.view.addSubview(stopScreenShareButton)
+        
+        // Start recording button.
+        startRecordingButton = UIButton(type: .system) as UIButton
+        startRecordingButton.frame = CGRect(x: 100, y: stopScreenShareButton.frame.origin.y + stopScreenShareButton.frame.height + 16, width: 100, height: 30)
+        startRecordingButton.isEnabled = false
+        startRecordingButton.isSelected = true
+        startRecordingButton.setTitle("START RECORD", for: .normal)
+        startRecordingButton.addTarget(self, action: #selector(startRecordingAction), for: .touchUpInside)
+        self.view.addSubview(startRecordingButton)
+        
+        // Stop recording button.
+        stopRecordingButton = UIButton(type: .system) as UIButton
+        stopRecordingButton.frame = CGRect(x: 200, y: stopScreenShareButton.frame.origin.y + stopScreenShareButton.frame.height + 16, width: 100, height: 30)
+        stopRecordingButton.isEnabled = false
+        stopRecordingButton.isSelected = true
+        stopRecordingButton.setTitle("STOP RECORD", for: .normal)
+        stopRecordingButton.addTarget(self, action: #selector(stopRecordingAction), for: .touchUpInside)
+        self.view.addSubview(stopRecordingButton)
     }
     
     @objc func logInButtonAction(sender: UIButton!) {
@@ -181,6 +201,7 @@ class ViewController: UIViewController {
                 self.leaveButton.isEnabled = true
                 self.startVideoButton.isEnabled = true
                 self.startScreenShareButton.isEnabled = true
+                self.startRecordingButton.isEnabled = true
             }, fail: { error in })
         }, fail: { error in })
     }
@@ -195,6 +216,8 @@ class ViewController: UIViewController {
             self.participantsLabel.text = nil
             self.startScreenShareButton.isEnabled = false
             self.stopScreenShareButton.isEnabled = false
+            self.startRecordingButton.isEnabled = false
+            self.stopRecordingButton.isEnabled = false
         }
     }
     
@@ -234,6 +257,24 @@ class ViewController: UIViewController {
                     self.startScreenShareButton.isEnabled = true
                     self.stopScreenShareButton.isEnabled = false
                 }
+            }
+        }
+    }
+    
+    @objc func startRecordingAction(sender: UIButton!) {
+        VoxeetSDK.shared.recording.start { error in
+            if error == nil {
+                self.startRecordingButton.isEnabled = false
+                self.stopRecordingButton.isEnabled = true
+            }
+        }
+    }
+    
+    @objc func stopRecordingAction(sender: UIButton!) {
+        VoxeetSDK.shared.recording.stop { error in
+            if error == nil {
+                self.startRecordingButton.isEnabled = true
+                self.stopRecordingButton.isEnabled = false
             }
         }
     }
