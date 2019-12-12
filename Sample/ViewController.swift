@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     var leaveButton: UIButton!
     var startVideoButton: UIButton!
     var stopVideoButton: UIButton!
+    var startScreenShareButton: UIButton!
+    var stopScreenShareButton: UIButton!
     
     // Videos views.
     var videosView1: VTVideoView!
@@ -126,6 +128,24 @@ class ViewController: UIViewController {
         participantsLabel.adjustsFontSizeToFitWidth = true
         participantsLabel.minimumScaleFactor = 0.1
         self.view.addSubview(participantsLabel)
+        
+        // Start screen share button.
+        startScreenShareButton = UIButton(type: .system) as UIButton
+        startScreenShareButton.frame = CGRect(x: 100, y: participantsLabel.frame.origin.y + participantsLabel.frame.height + 16, width: 100, height: 30)
+        startScreenShareButton.isEnabled = false
+        startScreenShareButton.isSelected = true
+        startScreenShareButton.setTitle("STARTSCREEN", for: .normal)
+        startScreenShareButton.addTarget(self, action: #selector(startScreenShareAction), for: .touchUpInside)
+        self.view.addSubview(startScreenShareButton)
+        
+        // Stop screen share button.
+        stopScreenShareButton = UIButton(type: .system) as UIButton
+        stopScreenShareButton.frame = CGRect(x: 200, y: participantsLabel.frame.origin.y + participantsLabel.frame.height + 16, width: 100, height: 30)
+        stopScreenShareButton.isEnabled = false
+        stopScreenShareButton.isSelected = true
+        stopScreenShareButton.setTitle("STOPSCREEN", for: .normal)
+        stopScreenShareButton.addTarget(self, action: #selector(stopScreenShareAction), for: .touchUpInside)
+        self.view.addSubview(stopScreenShareButton)
     }
     
     @objc func logInButtonAction(sender: UIButton!) {
@@ -160,7 +180,7 @@ class ViewController: UIViewController {
                 self.startButton.isEnabled = false
                 self.leaveButton.isEnabled = true
                 self.startVideoButton.isEnabled = true
-                self.stopVideoButton.isEnabled = false
+                self.startScreenShareButton.isEnabled = true
             }, fail: { error in })
         }, fail: { error in })
     }
@@ -173,6 +193,8 @@ class ViewController: UIViewController {
             self.startVideoButton.isEnabled = false
             self.stopVideoButton.isEnabled = false
             self.participantsLabel.text = nil
+            self.startScreenShareButton.isEnabled = false
+            self.stopScreenShareButton.isEnabled = false
         }
     }
     
@@ -190,6 +212,28 @@ class ViewController: UIViewController {
             if error == nil {
                 self.startVideoButton.isEnabled = true
                 self.stopVideoButton.isEnabled = false
+            }
+        }
+    }
+    
+    @objc func startScreenShareAction(sender: UIButton!) {
+        if #available(iOS 11.0, *) {
+            VoxeetSDK.shared.conference.startScreenShare { error in
+                if error == nil {
+                    self.startScreenShareButton.isEnabled = false
+                    self.stopScreenShareButton.isEnabled = true
+                }
+            }
+        }
+    }
+    
+    @objc func stopScreenShareAction(sender: UIButton!) {
+        if #available(iOS 11.0, *) {
+            VoxeetSDK.shared.conference.stopScreenShare { error in
+                if error == nil {
+                    self.startScreenShareButton.isEnabled = true
+                    self.stopScreenShareButton.isEnabled = false
+                }
             }
         }
     }
@@ -218,7 +262,16 @@ extension ViewController: VTConferenceDelegate {
                     videosView2.unattach() /* Optional */
                 }
             }
-        case .ScreenShare: break
+        case .ScreenShare:
+            if participant.id == VoxeetSDK.shared.session.participant?.id {
+                if !stream.videoTracks.isEmpty {
+                    videosView1.attach(participant: participant, stream: stream)
+                }
+            } else {
+                if !stream.videoTracks.isEmpty {
+                    videosView2.attach(participant: participant, stream: stream)
+                }
+            }
         default: break
         }
         
