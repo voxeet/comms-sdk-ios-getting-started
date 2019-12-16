@@ -21,6 +21,10 @@ class ViewController: UIViewController {
     var leaveButton: UIButton!
     var startVideoButton: UIButton!
     var stopVideoButton: UIButton!
+    var startScreenShareButton: UIButton!
+    var stopScreenShareButton: UIButton!
+    var startRecordingButton: UIButton!
+    var stopRecordingButton: UIButton!
     
     // Videos views.
     var videosView1: VTVideoView!
@@ -126,12 +130,48 @@ class ViewController: UIViewController {
         participantsLabel.adjustsFontSizeToFitWidth = true
         participantsLabel.minimumScaleFactor = 0.1
         self.view.addSubview(participantsLabel)
+        
+        // Start screen share button.
+        startScreenShareButton = UIButton(type: .system) as UIButton
+        startScreenShareButton.frame = CGRect(x: 100, y: participantsLabel.frame.origin.y + participantsLabel.frame.height + 16, width: 100, height: 30)
+        startScreenShareButton.isEnabled = false
+        startScreenShareButton.isSelected = true
+        startScreenShareButton.setTitle("STARTSCREEN", for: .normal)
+        startScreenShareButton.addTarget(self, action: #selector(startScreenShareAction), for: .touchUpInside)
+        self.view.addSubview(startScreenShareButton)
+        
+        // Stop screen share button.
+        stopScreenShareButton = UIButton(type: .system) as UIButton
+        stopScreenShareButton.frame = CGRect(x: 200, y: participantsLabel.frame.origin.y + participantsLabel.frame.height + 16, width: 100, height: 30)
+        stopScreenShareButton.isEnabled = false
+        stopScreenShareButton.isSelected = true
+        stopScreenShareButton.setTitle("STOPSCREEN", for: .normal)
+        stopScreenShareButton.addTarget(self, action: #selector(stopScreenShareAction), for: .touchUpInside)
+        self.view.addSubview(stopScreenShareButton)
+        
+        // Start recording button.
+        startRecordingButton = UIButton(type: .system) as UIButton
+        startRecordingButton.frame = CGRect(x: 100, y: stopScreenShareButton.frame.origin.y + stopScreenShareButton.frame.height + 16, width: 100, height: 30)
+        startRecordingButton.isEnabled = false
+        startRecordingButton.isSelected = true
+        startRecordingButton.setTitle("START RECORD", for: .normal)
+        startRecordingButton.addTarget(self, action: #selector(startRecordingAction), for: .touchUpInside)
+        self.view.addSubview(startRecordingButton)
+        
+        // Stop recording button.
+        stopRecordingButton = UIButton(type: .system) as UIButton
+        stopRecordingButton.frame = CGRect(x: 200, y: stopScreenShareButton.frame.origin.y + stopScreenShareButton.frame.height + 16, width: 100, height: 30)
+        stopRecordingButton.isEnabled = false
+        stopRecordingButton.isSelected = true
+        stopRecordingButton.setTitle("STOP RECORD", for: .normal)
+        stopRecordingButton.addTarget(self, action: #selector(stopRecordingAction), for: .touchUpInside)
+        self.view.addSubview(stopRecordingButton)
     }
     
     @objc func logInButtonAction(sender: UIButton!) {
         // Open user session.
-        let user = VTUser(externalID: nil, name: sessionTextField.text, avatarURL: nil)
-        VoxeetSDK.shared.session.connect(user: user) { error in
+        let info = VTParticipantInfo(externalID: nil, name: sessionTextField.text, avatarURL: nil)
+        VoxeetSDK.shared.session.open(info: info) { error in
             self.logInButton.isEnabled = false
             self.logoutButton.isEnabled = true
             self.startButton.isEnabled = true
@@ -141,7 +181,7 @@ class ViewController: UIViewController {
     
     @objc func logoutButtonAction(sender: UIButton!) {
         // Close user session
-        VoxeetSDK.shared.session.disconnect { error in
+        VoxeetSDK.shared.session.close { error in
             self.logInButton.isEnabled = true
             self.logoutButton.isEnabled = false
             self.startButton.isEnabled = false
@@ -151,17 +191,17 @@ class ViewController: UIViewController {
     
     @objc func startButtonAction(sender: UIButton!) {
         // Create a conference room with an alias.
-        let parameters = ["conferenceAlias": conferenceTextField.text ?? ""]
-        VoxeetSDK.shared.conference.create(parameters: parameters, success: { response in
-            guard let conferenceID = response?["conferenceId"] as? String else { return }
-            
+        let options = VTConferenceOptions()
+        options.alias = conferenceTextField.text ?? ""
+        VoxeetSDK.shared.conference.create(options: options, success: { conference in
             // Join the conference with its id.
-            VoxeetSDK.shared.conference.join(conferenceID: conferenceID, success: { response in
+            VoxeetSDK.shared.conference.join(conference: conference, success: { response in
                 self.logoutButton.isEnabled = false
                 self.startButton.isEnabled = false
                 self.leaveButton.isEnabled = true
                 self.startVideoButton.isEnabled = true
-                self.stopVideoButton.isEnabled = false
+                self.startScreenShareButton.isEnabled = true
+                self.startRecordingButton.isEnabled = true
             }, fail: { error in })
         }, fail: { error in })
     }
@@ -174,6 +214,10 @@ class ViewController: UIViewController {
             self.startVideoButton.isEnabled = false
             self.stopVideoButton.isEnabled = false
             self.participantsLabel.text = nil
+            self.startScreenShareButton.isEnabled = false
+            self.stopScreenShareButton.isEnabled = false
+            self.startRecordingButton.isEnabled = false
+            self.stopRecordingButton.isEnabled = false
         }
     }
     
@@ -194,47 +238,97 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    @objc func startScreenShareAction(sender: UIButton!) {
+        if #available(iOS 11.0, *) {
+            VoxeetSDK.shared.conference.startScreenShare { error in
+                if error == nil {
+                    self.startScreenShareButton.isEnabled = false
+                    self.stopScreenShareButton.isEnabled = true
+                }
+            }
+        }
+    }
+    
+    @objc func stopScreenShareAction(sender: UIButton!) {
+        if #available(iOS 11.0, *) {
+            VoxeetSDK.shared.conference.stopScreenShare { error in
+                if error == nil {
+                    self.startScreenShareButton.isEnabled = true
+                    self.stopScreenShareButton.isEnabled = false
+                }
+            }
+        }
+    }
+    
+    @objc func startRecordingAction(sender: UIButton!) {
+        VoxeetSDK.shared.recording.start { error in
+            if error == nil {
+                self.startRecordingButton.isEnabled = false
+                self.stopRecordingButton.isEnabled = true
+            }
+        }
+    }
+    
+    @objc func stopRecordingAction(sender: UIButton!) {
+        VoxeetSDK.shared.recording.stop { error in
+            if error == nil {
+                self.startRecordingButton.isEnabled = true
+                self.stopRecordingButton.isEnabled = false
+            }
+        }
+    }
 }
 
 extension ViewController: VTConferenceDelegate {
-    func participantJoined(userID: String, stream: MediaStream) {
-        participantUpdated(userID: userID, stream: stream)
+    func statusUpdated(status: VTConferenceStatus) {}
+    
+    func streamAdded(participant: VTParticipant, stream: MediaStream) {
+        streamUpdated(participant: participant, stream: stream)
     }
     
-    func participantUpdated(userID: String, stream: MediaStream) {
-        if userID == VoxeetSDK.shared.session.user?.id {
-            if stream.videoTracks.isEmpty == false {
-                videosView1.attach(userID: userID, stream: stream)
+    func streamUpdated(participant: VTParticipant, stream: MediaStream) {
+        switch stream.type {
+        case .Camera:
+            if participant.id == VoxeetSDK.shared.session.participant?.id {
+                if !stream.videoTracks.isEmpty {
+                    videosView1.attach(participant: participant, stream: stream)
+                } else {
+                    videosView1.unattach() /* Optional */
+                }
             } else {
-                videosView1.unattach() /* Optional */
+                if !stream.videoTracks.isEmpty {
+                    videosView2.attach(participant: participant, stream: stream)
+                } else {
+                    videosView2.unattach() /* Optional */
+                }
             }
-        } else {
-            if stream.videoTracks.isEmpty == false {
-                videosView2.attach(userID: userID, stream: stream)
+        case .ScreenShare:
+            if participant.id == VoxeetSDK.shared.session.participant?.id {
+                if !stream.videoTracks.isEmpty {
+                    videosView1.attach(participant: participant, stream: stream)
+                }
             } else {
-                videosView2.unattach() /* Optional */
+                if !stream.videoTracks.isEmpty {
+                    videosView2.attach(participant: participant, stream: stream)
+                }
             }
+        default: break
         }
         
         // Update participants label.
         updateParticipantsLabel()
     }
     
-    func participantLeft(userID: String) {
+    func streamRemoved(participant: VTParticipant, stream: MediaStream) {
         updateParticipantsLabel()
     }
     
     func updateParticipantsLabel() {
         // Update participants label.
-        var users = VoxeetSDK.shared.conference.users.filter({ $0.hasStream }) /* Gets only users with stream */
-        if let sessionUser = VoxeetSDK.shared.session.user {
-            users.append(sessionUser)
-        }
-        let usernames = users.map({ $0.name ?? "" })
-        participantsLabel.text = usernames.joined(separator: ", ")
+        let participants = VoxeetSDK.shared.conference.current?.participants
+            .filter({ $0.streams.isEmpty == false })
+        let usernames = participants?.map({ $0.info.name ?? "" })
+        participantsLabel.text = usernames?.joined(separator: ", ")
     }
-    
-    func screenShareStarted(userID: String, stream: MediaStream) {}
-    func screenShareStopped(userID: String) {}
-    func messageReceived(userID: String, message: String) {}
 }
