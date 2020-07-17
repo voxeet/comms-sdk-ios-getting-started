@@ -44,6 +44,16 @@ class ViewController: UIViewController {
     }
     
     func initSessionUI() {
+        let avengersNames = [
+            "Thor",
+            "Cap",
+            "Tony Stark",
+            "Black Panther",
+            "Black Widow",
+            "Hulk",
+            "Spider-Man",
+        ]
+
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
         
         // Session text field.
@@ -51,6 +61,7 @@ class ViewController: UIViewController {
         sessionTextField.borderStyle = .roundedRect
         sessionTextField.placeholder = "Username"
         sessionTextField.autocorrectionType = .no
+        sessionTextField.text = avengersNames.randomElement()
         self.view.addSubview(sessionTextField)
         
         // Open session button.
@@ -78,6 +89,7 @@ class ViewController: UIViewController {
         conferenceTextField.borderStyle = .roundedRect
         conferenceTextField.placeholder = "Conference"
         conferenceTextField.autocorrectionType = .no
+        conferenceTextField.text = "Avengers meeting"
         self.view.addSubview(conferenceTextField)
         
         // Conference create/join button.
@@ -201,6 +213,7 @@ class ViewController: UIViewController {
                 self.leaveButton.isEnabled = true
                 self.startVideoButton.isEnabled = true
                 self.startScreenShareButton.isEnabled = true
+                self.stopScreenShareButton.isEnabled = false
                 self.startRecordingButton.isEnabled = true
             }, fail: { error in })
         }, fail: { error in })
