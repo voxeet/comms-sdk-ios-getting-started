@@ -1,1 +1,1 @@
-github "voxeet/voxeet-ios-sdk" "2.0.0"
+binary "https://raw.githubusercontent.com/voxeet/voxeet-sdk-ios/master/VoxeetSDK.json" "2.4.0"
