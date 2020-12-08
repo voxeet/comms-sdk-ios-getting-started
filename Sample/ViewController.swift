@@ -51,6 +51,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func initSessionUI() {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
+
+        let avengersNames = [
+            "Thor",
+            "Cap",
+            "Tony Stark",
+            "Black Panther",
+            "Black Widow",
+            "Hulk",
+            "Spider-Man",
+        ]
         
         // Session text field.
         sessionTextField = UITextField(frame: CGRect(x: margin,
@@ -59,6 +69,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         sessionTextField.borderStyle = .roundedRect
         sessionTextField.placeholder = "Username"
         sessionTextField.autocorrectionType = .no
+        sessionTextField.text = avengersNames.randomElement()
         sessionTextField.delegate = self
         self.view.addSubview(sessionTextField)
         
