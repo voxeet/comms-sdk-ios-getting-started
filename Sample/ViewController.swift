@@ -108,6 +108,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         conferenceTextField.borderStyle = .roundedRect
         conferenceTextField.placeholder = "Conference alias"
         conferenceTextField.autocorrectionType = .no
+        conferenceTextField.text = "Avengers meeting"
         conferenceTextField.delegate = self
         self.view.addSubview(conferenceTextField)
         
