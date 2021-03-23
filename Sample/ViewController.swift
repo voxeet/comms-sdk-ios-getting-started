@@ -193,6 +193,7 @@ class ViewController: UIViewController {
         // Create a conference room with an alias.
         let options = VTConferenceOptions()
         options.alias = conferenceTextField.text ?? ""
+        options.params.dolbyVoice = true
         VoxeetSDK.shared.conference.create(options: options, success: { conference in
             // Join the conference with its id.
             VoxeetSDK.shared.conference.join(conference: conference, success: { response in
@@ -281,6 +282,12 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: VTConferenceDelegate {
+    func permissionsUpdated(permissions: [Int]) {}
+    
+    func participantAdded(participant: VTParticipant) {}
+    
+    func participantUpdated(participant: VTParticipant) {}
+    
     func statusUpdated(status: VTConferenceStatus) {}
     
     func streamAdded(participant: VTParticipant, stream: MediaStream) {
