@@ -9,7 +9,7 @@
 import UIKit
 import VoxeetSDK
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     // Session UI.
     var sessionTextField: UITextField!
     var logInButton: UIButton!
@@ -43,19 +43,43 @@ class ViewController: UIViewController {
         VoxeetSDK.shared.conference.delegate = self
     }
     
+    let margin: CGFloat = 16
+    let buttonWidth: CGFloat = 120
+    let buttonHeight: CGFloat = 35
+    let textFieldWidth: CGFloat = 120 + 16 + 120
+    let textFieldHeight: CGFloat = 40
+    
     func initSessionUI() {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
+
+        let avengersNames = [
+            "Thor",
+            "Cap",
+            "Tony Stark",
+            "Black Panther",
+            "Black Widow",
+            "Hulk",
+            "Spider-Man",
+        ]
         
         // Session text field.
-        sessionTextField = UITextField(frame: CGRect(x: 8, y: statusBarHeight + 16, width: 84, height: 30))
+        sessionTextField = UITextField(frame: CGRect(x: margin,
+                                                     y: statusBarHeight + margin,
+                                                     width: textFieldWidth, height: textFieldHeight))
         sessionTextField.borderStyle = .roundedRect
         sessionTextField.placeholder = "Username"
         sessionTextField.autocorrectionType = .no
+        sessionTextField.text = avengersNames.randomElement()
+        sessionTextField.delegate = self
         self.view.addSubview(sessionTextField)
         
         // Open session button.
         logInButton = UIButton(type: .system) as UIButton
-        logInButton.frame = CGRect(x: 100, y: statusBarHeight + 16, width: 100, height: 30)
+        logInButton.frame = CGRect(x: margin,
+                                   y: sessionTextField.frame.origin.y + sessionTextField.frame.height + margin,
+                                   width: buttonWidth, height: buttonHeight)
+        logInButton.backgroundColor = logInButton.tintColor
+        logInButton.layer.cornerRadius = 5
         logInButton.isEnabled = true
         logInButton.isSelected = true
         logInButton.setTitle("LOG IN", for: .normal)
@@ -64,7 +88,11 @@ class ViewController: UIViewController {
         
         // Close session button.
         logoutButton = UIButton(type: .system) as UIButton
-        logoutButton.frame = CGRect(x: 200, y: statusBarHeight + 16, width: 100, height: 30)
+        logoutButton.frame = CGRect(x: logInButton.frame.origin.x + logInButton.frame.width + margin,
+                                    y: logInButton.frame.origin.y,
+                                    width: buttonWidth, height: buttonHeight)
+        logoutButton.backgroundColor = logoutButton.tintColor
+        logoutButton.layer.cornerRadius = 5
         logoutButton.isEnabled = false
         logoutButton.isSelected = true
         logoutButton.setTitle("LOGOUT", for: .normal)
@@ -74,15 +102,23 @@ class ViewController: UIViewController {
     
     func initConferenceUI() {
         // Session text field.
-        conferenceTextField = UITextField(frame: CGRect(x: 8, y: sessionTextField.frame.origin.y + sessionTextField.frame.height + 16, width: 84, height: 30))
+        conferenceTextField = UITextField(frame: CGRect(x: margin,
+                                                        y: logoutButton.frame.origin.y + logoutButton.frame.height + margin,
+                                                        width: textFieldWidth, height: textFieldHeight))
         conferenceTextField.borderStyle = .roundedRect
-        conferenceTextField.placeholder = "Conference"
+        conferenceTextField.placeholder = "Conference alias"
         conferenceTextField.autocorrectionType = .no
+        conferenceTextField.text = "Avengers meeting"
+        conferenceTextField.delegate = self
         self.view.addSubview(conferenceTextField)
         
         // Conference create/join button.
         startButton = UIButton(type: .system) as UIButton
-        startButton.frame = CGRect(x: 100, y: sessionTextField.frame.origin.y + sessionTextField.frame.height + 16, width: 100, height: 30)
+        startButton.frame = CGRect(x: margin,
+                                   y: conferenceTextField.frame.origin.y + conferenceTextField.frame.height + margin,
+                                   width: buttonWidth, height: buttonHeight)
+        startButton.backgroundColor = startButton.tintColor
+        startButton.layer.cornerRadius = 5
         startButton.isEnabled = false
         startButton.isSelected = true
         startButton.setTitle("START", for: .normal)
@@ -91,7 +127,11 @@ class ViewController: UIViewController {
         
         // Conference leave button.
         leaveButton = UIButton(type: .system) as UIButton
-        leaveButton.frame = CGRect(x: 200, y: sessionTextField.frame.origin.y + sessionTextField.frame.height + 16, width: 100, height: 30)
+        leaveButton.frame = CGRect(x: startButton.frame.origin.x + startButton.frame.width + margin,
+                                   y: startButton.frame.origin.y,
+                                   width: buttonWidth, height: buttonHeight)
+        leaveButton.backgroundColor = leaveButton.tintColor
+        leaveButton.layer.cornerRadius = 5
         leaveButton.isEnabled = false
         leaveButton.isSelected = true
         leaveButton.setTitle("LEAVE", for: .normal)
@@ -100,7 +140,11 @@ class ViewController: UIViewController {
         
         // Start video button.
         startVideoButton = UIButton(type: .system) as UIButton
-        startVideoButton.frame = CGRect(x: 100, y: leaveButton.frame.origin.y + leaveButton.frame.height + 16, width: 100, height: 30)
+        startVideoButton.frame = CGRect(x: margin,
+                                        y: startButton.frame.origin.y + startButton.frame.height + margin,
+                                        width: buttonWidth, height: buttonHeight)
+        startVideoButton.backgroundColor = startVideoButton.tintColor
+        startVideoButton.layer.cornerRadius = 5
         startVideoButton.isEnabled = false
         startVideoButton.isSelected = true
         startVideoButton.setTitle("START VIDEO", for: .normal)
@@ -109,7 +153,11 @@ class ViewController: UIViewController {
         
         // Stop video button.
         stopVideoButton = UIButton(type: .system) as UIButton
-        stopVideoButton.frame = CGRect(x: 200, y: leaveButton.frame.origin.y + leaveButton.frame.height + 16, width: 100, height: 30)
+        stopVideoButton.frame = CGRect(x: startButton.frame.origin.x + startButton.frame.width + margin,
+                                       y: startVideoButton.frame.origin.y,
+                                       width: buttonWidth, height: buttonHeight)
+        stopVideoButton.backgroundColor = stopVideoButton.tintColor
+        stopVideoButton.layer.cornerRadius = 5
         stopVideoButton.isEnabled = false
         stopVideoButton.isSelected = true
         stopVideoButton.setTitle("STOP VIDEO", for: .normal)
@@ -117,15 +165,22 @@ class ViewController: UIViewController {
         self.view.addSubview(stopVideoButton)
         
         // Video views.
-        videosView1 = VTVideoView(frame: CGRect(x: 108, y: startVideoButton.frame.origin.y + startVideoButton.frame.height + 16, width: 84, height: 84))
+        videosView1 = VTVideoView(frame: CGRect(x: margin,
+                                                y: startVideoButton.frame.origin.y + startVideoButton.frame.height + margin,
+                                                width: buttonWidth, height: buttonWidth))
         videosView1.backgroundColor = .black
         self.view.addSubview(videosView1)
-        videosView2 = VTVideoView(frame: CGRect(x: 208, y: startVideoButton.frame.origin.y + startVideoButton.frame.height + 16, width: 84, height: 84))
+        
+        videosView2 = VTVideoView(frame: CGRect(x: startVideoButton.frame.origin.x + startVideoButton.frame.width + margin,
+                                                y: videosView1.frame.origin.y,
+                                                width: buttonWidth, height: buttonWidth))
         videosView2.backgroundColor = .black
         self.view.addSubview(videosView2)
         
         // Participants label.
-        participantsLabel = UILabel(frame: CGRect(x: 100, y: videosView1.frame.origin.y + videosView1.frame.height + 16, width: 200, height: 30))
+        participantsLabel = UILabel(frame: CGRect(x: margin,
+                                                  y: videosView1.frame.origin.y + videosView1.frame.height + margin,
+                                                  width: textFieldWidth, height: textFieldHeight))
         participantsLabel.backgroundColor = .lightGray
         participantsLabel.adjustsFontSizeToFitWidth = true
         participantsLabel.minimumScaleFactor = 0.1
@@ -133,25 +188,41 @@ class ViewController: UIViewController {
         
         // Start screen share button.
         startScreenShareButton = UIButton(type: .system) as UIButton
-        startScreenShareButton.frame = CGRect(x: 100, y: participantsLabel.frame.origin.y + participantsLabel.frame.height + 16, width: 100, height: 30)
+        startScreenShareButton.frame = CGRect(x: margin,
+                                              y: participantsLabel.frame.origin.y + participantsLabel.frame.height + margin,
+                                              width: buttonWidth, height: 50)
+        startScreenShareButton.backgroundColor = startScreenShareButton.tintColor
+        startScreenShareButton.layer.cornerRadius = 5
         startScreenShareButton.isEnabled = false
         startScreenShareButton.isSelected = true
-        startScreenShareButton.setTitle("STARTSCREEN", for: .normal)
+        startScreenShareButton.setTitle("START SCREENSHARE", for: .normal)
+        startScreenShareButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+        startScreenShareButton.titleLabel?.textAlignment = .center
         startScreenShareButton.addTarget(self, action: #selector(startScreenShareAction), for: .touchUpInside)
         self.view.addSubview(startScreenShareButton)
         
         // Stop screen share button.
         stopScreenShareButton = UIButton(type: .system) as UIButton
-        stopScreenShareButton.frame = CGRect(x: 200, y: participantsLabel.frame.origin.y + participantsLabel.frame.height + 16, width: 100, height: 30)
+        stopScreenShareButton.frame = CGRect(x: startScreenShareButton.frame.origin.x + startScreenShareButton.frame.width + margin,
+                                             y: startScreenShareButton.frame.origin.y,
+                                             width: buttonWidth, height: 50)
+        stopScreenShareButton.backgroundColor = stopScreenShareButton.tintColor
+        stopScreenShareButton.layer.cornerRadius = 5
         stopScreenShareButton.isEnabled = false
         stopScreenShareButton.isSelected = true
-        stopScreenShareButton.setTitle("STOPSCREEN", for: .normal)
+        stopScreenShareButton.setTitle("STOP SCREENSHARE", for: .normal)
+        stopScreenShareButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+        stopScreenShareButton.titleLabel?.textAlignment = .center
         stopScreenShareButton.addTarget(self, action: #selector(stopScreenShareAction), for: .touchUpInside)
         self.view.addSubview(stopScreenShareButton)
         
         // Start recording button.
         startRecordingButton = UIButton(type: .system) as UIButton
-        startRecordingButton.frame = CGRect(x: 100, y: stopScreenShareButton.frame.origin.y + stopScreenShareButton.frame.height + 16, width: 100, height: 30)
+        startRecordingButton.frame = CGRect(x: margin,
+                                            y: startScreenShareButton.frame.origin.y + startScreenShareButton.frame.height + margin,
+                                            width: buttonWidth, height: buttonHeight)
+        startRecordingButton.backgroundColor = startRecordingButton.tintColor
+        startRecordingButton.layer.cornerRadius = 5
         startRecordingButton.isEnabled = false
         startRecordingButton.isSelected = true
         startRecordingButton.setTitle("START RECORD", for: .normal)
@@ -160,12 +231,21 @@ class ViewController: UIViewController {
         
         // Stop recording button.
         stopRecordingButton = UIButton(type: .system) as UIButton
-        stopRecordingButton.frame = CGRect(x: 200, y: stopScreenShareButton.frame.origin.y + stopScreenShareButton.frame.height + 16, width: 100, height: 30)
+        stopRecordingButton.frame = CGRect(x: startRecordingButton.frame.origin.x + startRecordingButton.frame.width + margin,
+                                           y: startRecordingButton.frame.origin.y,
+                                           width: buttonWidth, height: buttonHeight)
+        stopRecordingButton.backgroundColor = stopRecordingButton.tintColor
+        stopRecordingButton.layer.cornerRadius = 5
         stopRecordingButton.isEnabled = false
         stopRecordingButton.isSelected = true
         stopRecordingButton.setTitle("STOP RECORD", for: .normal)
         stopRecordingButton.addTarget(self, action: #selector(stopRecordingAction), for: .touchUpInside)
         self.view.addSubview(stopRecordingButton)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     @objc func logInButtonAction(sender: UIButton!) {
