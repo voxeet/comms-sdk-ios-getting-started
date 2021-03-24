@@ -10,6 +10,11 @@ import UIKit
 import VoxeetSDK
 
 class ViewController: UIViewController, UITextFieldDelegate {
+    
+    /*
+     *  MARK: Properties
+     */
+    
     // Session UI.
     var sessionTextField: UITextField!
     var logInButton: UIButton!
@@ -33,9 +38,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
     // Participant label.
     var participantsLabel: UILabel!
     
+    // User interface settings.
+    let margin: CGFloat = 16
+    let buttonWidth: CGFloat = 120
+    let buttonHeight: CGFloat = 35
+    let textFieldWidth: CGFloat = 120 + 16 + 120
+    let textFieldHeight: CGFloat = 40
+    
+    /*
+     *  MARK: Methods
+     */
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Init UI.
         initSessionUI()
         initConferenceUI()
         
@@ -43,24 +60,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
         VoxeetSDK.shared.conference.delegate = self
     }
     
-    let margin: CGFloat = 16
-    let buttonWidth: CGFloat = 120
-    let buttonHeight: CGFloat = 35
-    let textFieldWidth: CGFloat = 120 + 16 + 120
-    let textFieldHeight: CGFloat = 40
-    
     func initSessionUI() {
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
-
-        let avengersNames = [
-            "Thor",
-            "Cap",
-            "Tony Stark",
-            "Black Panther",
-            "Black Widow",
-            "Hulk",
-            "Spider-Man",
-        ]
+        let avengersNames = ["Thor",
+                             "Cap",
+                             "Tony Stark",
+                             "Black Panther",
+                             "Black Widow",
+                             "Hulk",
+                             "Spider-Man"]
         
         // Session text field.
         sessionTextField = UITextField(frame: CGRect(x: margin,
@@ -273,6 +281,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Create a conference room with an alias.
         let options = VTConferenceOptions()
         options.alias = conferenceTextField.text ?? ""
+        options.params.dolbyVoice = true
         VoxeetSDK.shared.conference.create(options: options, success: { conference in
             // Join the conference with its id.
             VoxeetSDK.shared.conference.join(conference: conference, success: { response in
@@ -361,9 +370,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
 }
 
 extension ViewController: VTConferenceDelegate {
-    func participantAdded(participant: VTParticipant) { }
+    func permissionsUpdated(permissions: [Int]) {}
     
-    func participantUpdated(participant: VTParticipant) { }
+    func participantAdded(participant: VTParticipant) {}
+    
+    func participantUpdated(participant: VTParticipant) {}
     
     func statusUpdated(status: VTConferenceStatus) {}
     
