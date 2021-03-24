@@ -9,7 +9,7 @@
 import UIKit
 import VoxeetSDK
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController {
     
     /*
      *  MARK: Properties
@@ -203,7 +203,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         startScreenShareButton.layer.cornerRadius = 5
         startScreenShareButton.isEnabled = false
         startScreenShareButton.isSelected = true
-        startScreenShareButton.setTitle("START SCREENSHARE", for: .normal)
+        startScreenShareButton.setTitle("START SCREEN SHARE", for: .normal)
         startScreenShareButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
         startScreenShareButton.titleLabel?.textAlignment = .center
         startScreenShareButton.addTarget(self, action: #selector(startScreenShareAction), for: .touchUpInside)
@@ -218,7 +218,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         stopScreenShareButton.layer.cornerRadius = 5
         stopScreenShareButton.isEnabled = false
         stopScreenShareButton.isSelected = true
-        stopScreenShareButton.setTitle("STOP SCREENSHARE", for: .normal)
+        stopScreenShareButton.setTitle("STOP SCREEN SHARE", for: .normal)
         stopScreenShareButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
         stopScreenShareButton.titleLabel?.textAlignment = .center
         stopScreenShareButton.addTarget(self, action: #selector(stopScreenShareAction), for: .touchUpInside)
@@ -249,11 +249,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         stopRecordingButton.setTitle("STOP RECORD", for: .normal)
         stopRecordingButton.addTarget(self, action: #selector(stopRecordingAction), for: .touchUpInside)
         self.view.addSubview(stopRecordingButton)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
     }
     
     @objc func logInButtonAction(sender: UIButton!) {
@@ -425,5 +420,12 @@ extension ViewController: VTConferenceDelegate {
             .filter({ $0.streams.isEmpty == false })
         let usernames = participants?.map({ $0.info.name ?? "" })
         participantsLabel.text = usernames?.joined(separator: ", ")
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
 }
