@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8C8404F5260A4E3400796814 /* dvclient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C8404EF260A4CC900796814 /* dvclient.framework */; };
-		8C8404F6260A4E3400796814 /* dvclient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8C8404EF260A4CC900796814 /* dvclient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FA9A4630238EDB7F00BB3F1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A462F238EDB7F00BB3F1B /* AppDelegate.swift */; };
 		FA9A4632238EDB7F00BB3F1B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A4631238EDB7F00BB3F1B /* SceneDelegate.swift */; };
 		FA9A4634238EDB7F00BB3F1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A4633238EDB7F00BB3F1B /* ViewController.swift */; };
@@ -18,20 +17,6 @@
 		FA9A464A238EDC9000BB3F1B /* WebRTC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9A4648238EDC9000BB3F1B /* WebRTC.framework */; };
 		FA9A464B238EDC9000BB3F1B /* VoxeetSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9A4649238EDC9000BB3F1B /* VoxeetSDK.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		8C8404F7260A4E3400796814 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				8C8404F6260A4E3400796814 /* dvclient.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8C8404EF260A4CC900796814 /* dvclient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = dvclient.framework; path = Carthage/Build/iOS/dvclient.framework; sourceTree = "<group>"; };
@@ -105,7 +90,6 @@
 				FA9A4629238EDB7F00BB3F1B /* Frameworks */,
 				FA9A462A238EDB7F00BB3F1B /* Resources */,
 				FA9A4647238EDB9F00BB3F1B /* Carthage Run Script */,
-				8C8404F7260A4E3400796814 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -173,6 +157,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/VoxeetSDK.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/WebRTC.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/dvclient.framework",
 			);
 			name = "Carthage Run Script";
 			outputFileListPaths = (
@@ -180,6 +165,7 @@
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/VoxeetSDK.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/WebRTC.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/dvclient.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -354,7 +340,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
 		};
@@ -376,7 +361,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;
 		};
