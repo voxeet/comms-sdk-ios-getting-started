@@ -20,4 +20,6 @@ $ brew update
 $ brew install carthage
 ```
 
-Run `carthage update` to install dependencies
+Run `carthage update` to install dependencies.
+
+If you are using Xcode 12, please see the workaround from [carthage](https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md)
