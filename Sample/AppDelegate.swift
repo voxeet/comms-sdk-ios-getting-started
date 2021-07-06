@@ -12,8 +12,11 @@ import VoxeetSDK
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        // Voxeet SDK initialization.
+
+        // Initialize the Voxeet SDK
+        // WARNING: It is best practice to use the VoxeetSDK.shared.initialize function with an access token to initialize the SDK.
+        // Please read the documentation at:
+        // https://docs.dolby.io/interactivity/docs/initializing
         VoxeetSDK.shared.initialize(consumerKey: "YOUR_CONSUMER_KEY", consumerSecret: "YOUR_CONSUMER_SECRET")
         
         // Example of public variables to change the conference behavior.

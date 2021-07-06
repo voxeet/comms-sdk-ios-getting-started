@@ -1,10 +1,10 @@
 # Dolby Interactivity APIs iOS SDK Getting Started app
 
 This is the sample app from the iOS app used in the
-[Getting Started](https://dolby.io/developers/interactivity-apis/client-sdk/getting-started/create-a-basic-audio-conference-application) article. 
+[Getting Started](https://docs.dolby.io/interactivity/docs/getting-started-with-ios) article. 
 
 You can find additional reference documentation here:
-- [iOS Reference](https://dolby.io/developers/interactivity-apis/client-sdk/reference-ios/voxeetsdk)
+- [iOS Reference](https://docs.dolby.io/interactivity/docs/ios-client-sdk-voxeetsdk)
 
 ## Building
 
