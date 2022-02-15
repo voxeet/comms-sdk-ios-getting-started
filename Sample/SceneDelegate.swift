@@ -1,11 +1,3 @@
-//
-//  SceneDelegate.swift
-//  Sample
-//
-//  Created by Corentin Larroque on 27/11/2019.
-//  Copyright © 2019 Voxeet. All rights reserved.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
