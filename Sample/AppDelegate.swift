@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  Sample
-//
-//  Created by Corentin Larroque on 27/11/2019.
-//  Copyright © 2019 Voxeet. All rights reserved.
-//
-
 import UIKit
 import VoxeetSDK
 
@@ -16,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize the Voxeet SDK
         // WARNING: It is best practice to use the VoxeetSDK.shared.initialize function with an access token to initialize the SDK.
         // Please read the documentation at:
-        // https://docs.dolby.io/interactivity/docs/initializing
+        // https://docs.dolby.io/communications-apis/docs/initializing-ios
         VoxeetSDK.shared.initialize(consumerKey: "YOUR_CONSUMER_KEY", consumerSecret: "YOUR_CONSUMER_SECRET")
         
         // Example of public variables to change the conference behavior.
