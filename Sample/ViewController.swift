@@ -269,6 +269,7 @@ class ViewController: UIViewController {
         let options = VTConferenceOptions()
         options.alias = conferenceTextField.text ?? ""
         options.params.dolbyVoice = true
+        options.params.liveRecording = true; // enable recordings to show up in the console
         VoxeetSDK.shared.conference.create(options: options, success: { conference in
             // Join the conference with its id.
             VoxeetSDK.shared.conference.join(conference: conference, success: { response in
