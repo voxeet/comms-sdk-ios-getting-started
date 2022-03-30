@@ -53,7 +53,18 @@ class ViewController: UIViewController {
     }
     
     func initSessionUI() {
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        var statusBarHeight: CGFloat {
+            // 13.0 and later
+            if #available(iOS 13.0, *){
+                let scenes = UIApplication.shared.connectedScenes
+                let windowScene = scenes.first as? UIWindowScene
+                let window = windowScene?.windows.first
+                return  window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0;
+            }else {
+                return UIApplication.shared.statusBarFrame.height
+            }
+        }
+        
         let avengersNames = ["Thor",
                              "Cap",
                              "Tony Stark",
