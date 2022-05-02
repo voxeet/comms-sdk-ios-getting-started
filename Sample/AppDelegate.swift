@@ -6,10 +6,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Initialize the Voxeet SDK
-        // WARNING: It is best practice to use the VoxeetSDK.shared.initialize function with an access token to initialize the SDK.
         // Please read the documentation at:
         // https://docs.dolby.io/communications-apis/docs/initializing-ios
-        VoxeetSDK.shared.initialize(consumerKey: "YOUR_CONSUMER_KEY", consumerSecret: "YOUR_CONSUMER_SECRET")
+        // Generate a test client access token from the Dolby.io dashboard and insert into accessToken variable
+        let accessToken = "TestClientAccessToken"
+        VoxeetSDK.shared.initialize(accessToken: accessToken) { closure, isExpired in
+            closure(accessToken)
+        }
         
         // Example of public variables to change the conference behavior.
         VoxeetSDK.shared.notification.push.type = .none
