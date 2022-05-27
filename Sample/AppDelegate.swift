@@ -8,8 +8,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize the Voxeet SDK
         // Please read the documentation at:
         // https://docs.dolby.io/communications-apis/docs/initializing-ios
-        // Generate a test client access token from the Dolby.io dashboard and insert into accessToken variable
-        let accessToken = "TestClientAccessToken"
+        // Generate a client access token from the Dolby.io dashboard and insert into accessToken variable
+        let accessToken = "ClientAccessToken"
         VoxeetSDK.shared.initialize(accessToken: accessToken) { closure, isExpired in
             closure(accessToken)
         }
