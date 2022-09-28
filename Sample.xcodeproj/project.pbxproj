@@ -7,12 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0EEA87B627BC1B020066356D /* dvclient.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEA87B227BC1AD90066356D /* dvclient.xcframework */; };
-		0EEA87B727BC1B020066356D /* dvclient.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEA87B227BC1AD90066356D /* dvclient.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0EEA87B927BC1B060066356D /* VoxeetSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEA87B027BC1AD90066356D /* VoxeetSDK.xcframework */; };
-		0EEA87BA27BC1B060066356D /* VoxeetSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEA87B027BC1AD90066356D /* VoxeetSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0EEA87BB27BC1B080066356D /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEA87B127BC1AD90066356D /* WebRTC.xcframework */; };
-		0EEA87BC27BC1B080066356D /* WebRTC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0EEA87B127BC1AD90066356D /* WebRTC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0E97C03C28E4DEE0002FADAB /* VoxeetSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0E97C03B28E4DEE0002FADAB /* VoxeetSDK */; };
 		FA9A4630238EDB7F00BB3F1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A462F238EDB7F00BB3F1B /* AppDelegate.swift */; };
 		FA9A4632238EDB7F00BB3F1B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A4631238EDB7F00BB3F1B /* SceneDelegate.swift */; };
 		FA9A4634238EDB7F00BB3F1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9A4633238EDB7F00BB3F1B /* ViewController.swift */; };
@@ -28,9 +23,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0EEA87B727BC1B020066356D /* dvclient.xcframework in Embed Frameworks */,
-				0EEA87BA27BC1B060066356D /* VoxeetSDK.xcframework in Embed Frameworks */,
-				0EEA87BC27BC1B080066356D /* WebRTC.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -38,9 +30,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0EEA87B027BC1AD90066356D /* VoxeetSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VoxeetSDK.xcframework; path = Carthage/Build/VoxeetSDK.xcframework; sourceTree = "<group>"; };
-		0EEA87B127BC1AD90066356D /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WebRTC.xcframework; path = Carthage/Build/WebRTC.xcframework; sourceTree = "<group>"; };
-		0EEA87B227BC1AD90066356D /* dvclient.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = dvclient.xcframework; path = Carthage/Build/dvclient.xcframework; sourceTree = "<group>"; };
 		FA9A462C238EDB7F00BB3F1B /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA9A462F238EDB7F00BB3F1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA9A4631238EDB7F00BB3F1B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,9 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EEA87B927BC1B060066356D /* VoxeetSDK.xcframework in Frameworks */,
-				0EEA87B627BC1B020066356D /* dvclient.xcframework in Frameworks */,
-				0EEA87BB27BC1B080066356D /* WebRTC.xcframework in Frameworks */,
+				0E97C03C28E4DEE0002FADAB /* VoxeetSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,9 +55,6 @@
 		FA9A4623238EDB7F00BB3F1B = {
 			isa = PBXGroup;
 			children = (
-				0EEA87B227BC1AD90066356D /* dvclient.xcframework */,
-				0EEA87B027BC1AD90066356D /* VoxeetSDK.xcframework */,
-				0EEA87B127BC1AD90066356D /* WebRTC.xcframework */,
 				FA9A462E238EDB7F00BB3F1B /* Sample */,
 				FA9A462D238EDB7F00BB3F1B /* Products */,
 			);
@@ -115,6 +99,9 @@
 			dependencies = (
 			);
 			name = Sample;
+			packageProductDependencies = (
+				0E97C03B28E4DEE0002FADAB /* VoxeetSDK */,
+			);
 			productName = Sample;
 			productReference = FA9A462C238EDB7F00BB3F1B /* Sample.app */;
 			productType = "com.apple.product-type.application";
@@ -143,6 +130,9 @@
 				Base,
 			);
 			mainGroup = FA9A4623238EDB7F00BB3F1B;
+			packageReferences = (
+				0E97C03A28E4DEE0002FADAB /* XCRemoteSwiftPackageReference "voxeet-sdk-ios" */,
+			);
 			productRefGroup = FA9A462D238EDB7F00BB3F1B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -321,15 +311,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B55NRA8BRW;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Sample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voxeet.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = io.dolby.Sample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -342,15 +335,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B55NRA8BRW;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Sample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.voxeet.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = io.dolby.Sample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -378,6 +374,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0E97C03A28E4DEE0002FADAB /* XCRemoteSwiftPackageReference "voxeet-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/voxeet/voxeet-sdk-ios";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0E97C03B28E4DEE0002FADAB /* VoxeetSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E97C03A28E4DEE0002FADAB /* XCRemoteSwiftPackageReference "voxeet-sdk-ios" */;
+			productName = VoxeetSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA9A4624238EDB7F00BB3F1B /* Project object */;
 }

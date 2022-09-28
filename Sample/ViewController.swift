@@ -310,7 +310,7 @@ class ViewController: UIViewController {
     }
     
     @objc func startVideoButtonAction(sender: UIButton!) {
-        VoxeetSDK.shared.conference.startVideo { error in
+        VoxeetSDK.shared.video.local.start { error in
             if error == nil {
                 self.startVideoButton.isEnabled = false
                 self.stopVideoButton.isEnabled = true
@@ -319,7 +319,7 @@ class ViewController: UIViewController {
     }
     
     @objc func stopVideoButtonAction(sender: UIButton!) {
-        VoxeetSDK.shared.conference.stopVideo { error in
+        VoxeetSDK.shared.video.local.stop { error in
             if error == nil {
                 self.startVideoButton.isEnabled = true
                 self.stopVideoButton.isEnabled = false
