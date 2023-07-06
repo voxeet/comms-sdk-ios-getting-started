@@ -54,15 +54,10 @@ class ViewController: UIViewController {
     
     func initSessionUI() {
         var statusBarHeight: CGFloat {
-            // 13.0 and later
-            if #available(iOS 13.0, *){
-                let scenes = UIApplication.shared.connectedScenes
-                let windowScene = scenes.first as? UIWindowScene
-                let window = windowScene?.windows.first
-                return  window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0;
-            }else {
-                return UIApplication.shared.statusBarFrame.height
-            }
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScene = scenes.first as? UIWindowScene
+            let window = windowScene?.windows.first
+            return  window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0;
         }
         
         let avengersNames = ["Thor",
@@ -328,23 +323,19 @@ class ViewController: UIViewController {
     }
     
     @objc func startScreenShareAction(sender: UIButton!) {
-        if #available(iOS 11.0, *) {
-            VoxeetSDK.shared.conference.startScreenShare { error in
-                if error == nil {
-                    self.startScreenShareButton.isEnabled = false
-                    self.stopScreenShareButton.isEnabled = true
-                }
+        VoxeetSDK.shared.conference.startScreenShare { error in
+            if error == nil {
+                self.startScreenShareButton.isEnabled = false
+                self.stopScreenShareButton.isEnabled = true
             }
         }
     }
     
     @objc func stopScreenShareAction(sender: UIButton!) {
-        if #available(iOS 11.0, *) {
-            VoxeetSDK.shared.conference.stopScreenShare { error in
-                if error == nil {
-                    self.startScreenShareButton.isEnabled = true
-                    self.stopScreenShareButton.isEnabled = false
-                }
+        VoxeetSDK.shared.conference.stopScreenShare { error in
+            if error == nil {
+                self.startScreenShareButton.isEnabled = true
+                self.stopScreenShareButton.isEnabled = false
             }
         }
     }
