@@ -1,3 +1,5 @@
+# :warning: This repository is no longer maintained :warning:
+
 # Dolby.io Communications APIs iOS SDK Getting Started app
 
 This is the sample app from the iOS app used in the
